@@ -64,18 +64,6 @@ def test_pengumuman(driver):
     except:
         Assert.assertFalse("Download failed")
 
-# testing chat send and received message
-  # driver.find_element(By.XPATH, '//a[@data-title="logout,moodle"]').click()
-    # driver.find_element(
-    #     By.XPATH, '(//i[@class="icon fa slicon-bubble fa-fw "])[1]').click()
-    # driver.find_element(
-    #     By.XPATH, '//a[@data-user-id="4041"]').click()
-    # driver.find_element(
-    #     By.XPATH, '//textarea').send_keys(randomString + Keys.ENTER)
-    # message_sends = driver.find_element(
-    #     By.XPATH, "//*[text()={}]".format(randomString))
-    # print(message_sends)
-
 
 def test_chat(driver):
     characters = string.ascii_letters + string.digits + string.punctuation
