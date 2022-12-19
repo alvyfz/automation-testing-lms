@@ -1,11 +1,11 @@
-import random
-import string
 from time import sleep
 
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
+import constant
 
 
 @pytest.fixture()
@@ -18,9 +18,9 @@ def driver():
 
 def test_course_announcement(driver):
     driver.find_element(
-        By.ID, 'username').send_keys('192310009')
+        By.ID, 'username').send_keys(constant.USERNAME)
     driver.find_element(
-        By.ID, 'password').send_keys('Fauzi29030!' + Keys.ENTER)
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
     assert "Elearning" in driver.title
     banner = driver.find_element(
         By.XPATH, '//div/img')
@@ -40,4 +40,6 @@ def test_course_announcement(driver):
     announcement = driver.find_element(
         By.XPATH, '//h2[contains(text(),"Announcements")]')
     assert announcement is not None
-    sleep(5)
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()

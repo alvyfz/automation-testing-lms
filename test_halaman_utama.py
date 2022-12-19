@@ -8,6 +8,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+import constant
+
 
 @pytest.fixture()
 def driver():
@@ -19,20 +21,23 @@ def driver():
 
 def test_login(driver):
     driver.find_element(
-        By.ID, 'username').send_keys('192310009')
+        By.ID, 'username').send_keys(constant.USERNAME)
     driver.find_element(
-        By.ID, 'password').send_keys('Fauzi29030!' + Keys.ENTER)
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
     assert "Elearning" in driver.title
     banner = driver.find_element(
         By.XPATH, '//div/img')
     assert banner is not None
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
 
 
 def test_course_card(driver):
     driver.find_element(
-        By.ID, 'username').send_keys('192310009')
+        By.ID, 'username').send_keys(constant.USERNAME)
     driver.find_element(
-        By.ID, 'password').send_keys('Fauzi29030!' + Keys.ENTER)
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
     assert "Elearning" in driver.title
     banner = driver.find_element(
         By.XPATH, '//div/img')
@@ -44,6 +49,9 @@ def test_course_card(driver):
     button_course_card.click()
     enroll_page = driver.find_element(By.CSS_SELECTOR, "h2")
     assert enroll_page.text == "Enrolment options"
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
 
 
 def test_pengumuman(driver):
@@ -61,6 +69,9 @@ def test_pengumuman(driver):
         link_download_pengumuman = driver.find_element(
             By.XPATH, "//article[@id='p2']/div/div/div/div[2]/div[2]/a")
         link_download_pengumuman.click()
+        driver.find_element(By.ID, 'action-menu-toggle-1').click()
+        driver.find_element(
+            By.XPATH, '//a[@data-title="logout,moodle"]').click()
     except:
         Assert.assertFalse("Download failed")
 
@@ -69,9 +80,9 @@ def test_chat(driver):
     characters = string.ascii_letters + string.digits + string.punctuation
     randomString = ''.join(random.choice(characters) for i in range(8))
     driver.find_element(
-        By.ID, 'username').send_keys('192310009')
+        By.ID, 'username').send_keys(constant.USERNAME)
     driver.find_element(
-        By.ID, 'password').send_keys('Fauzi29030!' + Keys.ENTER)
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
     assert "Elearning" in driver.title
     banner = driver.find_element(
         By.XPATH, '//div/img')
@@ -89,3 +100,6 @@ def test_chat(driver):
     sleep(10)
     assert driver.find_element(
         By.XPATH, '//p[contains(text(),"' + randomString + '")]') is not None
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()

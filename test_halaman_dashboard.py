@@ -1,12 +1,12 @@
 import random
-import string
-from ast import Assert
 from time import sleep
 
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
+import constant
 
 
 @pytest.fixture()
@@ -19,9 +19,9 @@ def driver():
 
 def test_course_card_dashboard(driver):
     driver.find_element(
-        By.ID, 'username').send_keys('192310009')
+        By.ID, 'username').send_keys(constant.USERNAME)
     driver.find_element(
-        By.ID, 'password').send_keys('Fauzi29030!' + Keys.ENTER)
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
     assert "Elearning" in driver.title
     banner = driver.find_element(
         By.XPATH, '//div/img')
@@ -39,18 +39,20 @@ def test_course_card_dashboard(driver):
     announcement_on_course = driver.find_element(
         By.XPATH, '//div[@class="activityinstance"]')
     assert announcement_on_course is not None
-# (//section)[3] == //section[@id="inst30103"]
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
 
 
 def test_custom_section_course(driver):
-    # it should be different in every account
+    # it should be different on every account
     list_section = ['inst30101', 'inst30102',
                     'inst30103', 'inst30104', 'inst30105']
     section_selected = random.choice(list_section)
     driver.find_element(
-        By.ID, 'username').send_keys('192310009')
+        By.ID, 'username').send_keys(constant.USERNAME)
     driver.find_element(
-        By.ID, 'password').send_keys('Fauzi29030!' + Keys.ENTER)
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
     assert "Elearning" in driver.title
     banner = driver.find_element(
         By.XPATH, '//div/img')
@@ -79,3 +81,6 @@ def test_custom_section_course(driver):
     first_section = driver.find_element(By.XPATH, '(//section)[2]')
     # check first section is selected section its move to first section
     assert section_customed == first_section
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()

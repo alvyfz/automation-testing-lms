@@ -7,6 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+import constant
+
 
 @pytest.fixture()
 def driver():
@@ -18,19 +20,23 @@ def driver():
 
 def test_login_logout(driver):
     driver.find_element(
-        By.ID, 'username').send_keys('192310009')
+        By.ID, 'username').send_keys(constant.USERNAME)
     driver.find_element(
-        By.ID, 'password').send_keys('Fauzi29030!' + Keys.ENTER)
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
     assert "Elearning" in driver.title
     banner = driver.find_element(
         By.XPATH, '//div/img')
     assert banner is not None
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
-    driver.find_element(By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
     sleep(2)
     header_login = driver.find_element(
         By.XPATH, '//a[contains(text(),"Log in")]')
     assert header_login is not None
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
 
 
 def test_login_with_random_account(driver):
@@ -42,3 +48,6 @@ def test_login_with_random_account(driver):
         By.ID, 'password').send_keys(randomString + Keys.ENTER)
     alert = driver.find_element(By.CLASS_NAME, 'alert')
     assert alert is not None
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
