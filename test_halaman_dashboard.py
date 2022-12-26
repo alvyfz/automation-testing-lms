@@ -40,8 +40,10 @@ def test_course_card_dashboard(driver):
         By.XPATH, '//div[@class="activityinstance"]')
     assert announcement_on_course is not None
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)
 
 
 def test_custom_section_course(driver):
@@ -74,7 +76,7 @@ def test_custom_section_course(driver):
         By.XPATH, '//ul[@class="dragdrop-keyboard-drag"]//li[1]//a').click()
     sleep(2)
     driver.find_element(
-        By.XPATH, '/html/body/div[6]/div[2]/header/div/div/div/div[2]/div[1]/div[2]/form/button').click()
+        By.XPATH, '(//button[@type="submit"])[2]').click()
     sleep(1)
     section_customed = driver.find_element(
         By.XPATH, '//section[@id="' + section_selected + '"]')
@@ -82,5 +84,7 @@ def test_custom_section_course(driver):
     # check first section is selected section its move to first section
     assert section_customed == first_section
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)

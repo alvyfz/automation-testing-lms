@@ -41,5 +41,7 @@ def test_course_announcement(driver):
         By.XPATH, '//h2[contains(text(),"Announcements")]')
     assert announcement is not None
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)

@@ -59,5 +59,7 @@ def test_upload_file(driver):
         By.XPATH, '//span[contains(text(),"' + file_name + constant.FILE_TYPE + '")]')
     assert file_uploaded is not None
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)

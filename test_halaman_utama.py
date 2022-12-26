@@ -29,8 +29,10 @@ def test_login(driver):
         By.XPATH, '//div/img')
     assert banner is not None
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)
 
 
 def test_course_card(driver):
@@ -44,14 +46,18 @@ def test_course_card(driver):
     assert banner is not None
     course_card = driver.find_element(By.CLASS_NAME, "card")
     assert course_card is not None
-    button_course_card = driver.find_element(
-        By.XPATH, '(//a[@class="card-link btn btn-primary"])[1]')
-    button_course_card.click()
+    course_button = driver.find_element(
+        By.XPATH, '(//h4//a)[1]')
+    course_button.click()
+    course_button.click()
+    sleep(5)
     enroll_page = driver.find_element(By.CSS_SELECTOR, "h2")
     assert enroll_page.text == "Enrolment options"
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)
 
 
 def test_pengumuman(driver):
@@ -70,8 +76,10 @@ def test_pengumuman(driver):
             By.XPATH, "//article[@id='p2']/div/div/div/div[2]/div[2]/a")
         link_download_pengumuman.click()
         driver.find_element(By.ID, 'action-menu-toggle-1').click()
+        sleep(1)
         driver.find_element(
-            By.XPATH, '//a[@data-title="logout,moodle"]').click()
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
+        sleep(3)
     except:
         Assert.assertFalse("Download failed")
 
@@ -101,5 +109,7 @@ def test_chat(driver):
     assert driver.find_element(
         By.XPATH, '//p[contains(text(),"' + randomString + '")]') is not None
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)
