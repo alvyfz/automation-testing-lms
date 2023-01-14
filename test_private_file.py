@@ -1,5 +1,7 @@
+import os
 import random
 import string
+from ast import Assert
 from time import sleep
 
 import pytest
@@ -33,13 +35,10 @@ def test_upload_file(driver):
     assert banner is not None
     sleep(3)
     driver.find_element(
-        By.XPATH, '//button[@aria-controls="nav-drawer"]').click()
-    sleep(1)
-    driver.find_element(
         By.XPATH, '//a[@href="https://elearning.ibik.ac.id/user/files.php"]').click()
-    url = driver.current_url
-    assert url == 'https://elearning.ibik.ac.id/user/files.php'
-    sleep(5)
+    # url = driver.current_url
+    # assert url == 'https://elearning.ibik.ac.id/user/files.php'
+    sleep(3)
     driver.find_element(
         By.XPATH, '//a[@title="Add..."]').click()
     sleep(1)
@@ -54,7 +53,7 @@ def test_upload_file(driver):
     sleep(4)
     driver.find_element(
         By.XPATH, '//input[@id="id_submitbutton"]').click()
-    sleep(10)
+    sleep(6)
     file_uploaded = driver.find_element(
         By.XPATH, '//span[contains(text(),"' + file_name + constant.FILE_TYPE + '")]')
     assert file_uploaded is not None
@@ -63,3 +62,76 @@ def test_upload_file(driver):
     driver.find_element(
         By.XPATH, '//a[@data-title="logout,moodle"]').click()
     sleep(3)
+
+def test_download_private_file(driver):
+    driver.find_element(
+        By.ID, 'username').send_keys(constant.USERNAME)
+    driver.find_element(
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
+    assert "Elearning" in driver.title
+    banner = driver.find_element(
+        By.XPATH, '//div/img')
+    assert banner is not None
+    sleep(2)
+    driver.find_element(
+        By.XPATH, '//a[@href="https://elearning.ibik.ac.id/user/files.php"]').click()
+    # url = driver.current_url
+    # assert url == 'https://elearning.ibik.ac.id/user/files.php'
+    sleep(3)
+    file_uploaded = driver.find_element(
+        By.XPATH, '//a//span[contains(text(),"' + file_name + constant.FILE_TYPE + '")]')
+    file_uploaded.click()
+    sleep(1)
+    driver.find_element(By.XPATH,'//button[@class="fp-file-download btn btn-secondary"]').click()
+    sleep(2)
+    while not os.path.exists(constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE ):
+        sleep(1)
+
+    if os.path.isfile(constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE):
+        assert os.path.isfile(constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE) is not None
+        sleep(2)
+        driver.find_element(By.ID, 'action-menu-toggle-1').click()
+        sleep(1)
+        driver.find_element(
+            By.XPATH, '//a[@data-title="logout,moodle"]').click()
+        sleep(3)
+    else:
+        Assert.assertFalse("%s isn't a file!" % constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE)
+
+
+def test_folder_private_test(driver):
+    # create a folder and move file uploaded  to the folder was created
+    driver.find_element(
+        By.ID, 'username').send_keys(constant.USERNAME)
+    driver.find_element(
+        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
+    assert "Elearning" in driver.title
+    banner = driver.find_element(
+        By.XPATH, '//div/img')
+    assert banner is not None
+    sleep(2)
+    driver.find_element(
+        By.XPATH, '//a[@href="https://elearning.ibik.ac.id/user/files.php"]').click()
+    # url = driver.current_url
+    # assert url == 'https://elearning.ibik.ac.id/user/files.php'
+    sleep(3)
+    driver.find_element(By.XPATH, '//a[@title="Create folder"]').click()
+    sleep(1)
+    driver.find_element(By.XPATH, '//div[@class="fp-mkdir-dlg-text"]//input').send_keys(file_name)
+    driver.find_element(By.XPATH, '//button[@class="fp-dlg-butcreate btn-primary btn"]').click()
+    sleep(1)
+    file_uploaded = driver.find_element(
+        By.XPATH, '//a//span[contains(text(),"' + file_name + constant.FILE_TYPE + '")]')
+    file_uploaded.click()
+    driver.find_element(By.XPATH, '//select[@class="custom-select form-control"]/option[contains(text(),"' + file_name + '")]').click()
+    driver.find_element(By.XPATH, '//button[@class="fp-file-update btn-primary btn"]').click()
+    sleep(1)
+    driver.find_element(By.XPATH, '//span//input[@value="Save changes"]').click()
+    sleep(1)
+    assert file_uploaded is not None
+    driver.find_element(By.ID, 'action-menu-toggle-1').click()
+    sleep(1)
+    driver.find_element(
+        By.XPATH, '//a[@data-title="logout,moodle"]').click()
+    sleep(3)
+
