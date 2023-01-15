@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 import constant
-
+import utils
 
 @pytest.fixture()
 def driver():
@@ -17,14 +17,7 @@ def driver():
 
 
 def test_course_announcement(driver):
-    driver.find_element(
-        By.ID, 'username').send_keys(constant.USERNAME)
-    driver.find_element(
-        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
-    assert "Elearning" in driver.title
-    banner = driver.find_element(
-        By.XPATH, '//div/img')
-    assert banner is not None
+    utils.login(driver)
     driver.find_element(By.ID, 'action-menu-toggle-1').click()
     sleep(1)
     driver.find_element(
@@ -40,8 +33,4 @@ def test_course_announcement(driver):
     announcement = driver.find_element(
         By.XPATH, '//h2[contains(text(),"Announcements")]')
     assert announcement is not None
-    driver.find_element(By.ID, 'action-menu-toggle-1').click()
-    sleep(1)
-    driver.find_element(
-        By.XPATH, '//a[@data-title="logout,moodle"]').click()
-    sleep(3)
+    utils.logout(driver)

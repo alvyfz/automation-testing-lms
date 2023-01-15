@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 import constant
+import utils
 
 characters = string.ascii_letters + string.digits + string.punctuation
 randomString = ''.join(random.choice(characters) for i in range(8))
@@ -25,14 +26,7 @@ def driver():
 
 
 def test_upload_file(driver):
-    driver.find_element(
-        By.ID, 'username').send_keys(constant.USERNAME)
-    driver.find_element(
-        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
-    assert "Elearning" in driver.title
-    banner = driver.find_element(
-        By.XPATH, '//div/img')
-    assert banner is not None
+    utils.login(driver)
     sleep(3)
     driver.find_element(
         By.XPATH, '//a[@href="https://elearning.ibik.ac.id/user/files.php"]').click()
@@ -57,21 +51,10 @@ def test_upload_file(driver):
     file_uploaded = driver.find_element(
         By.XPATH, '//span[contains(text(),"' + file_name + constant.FILE_TYPE + '")]')
     assert file_uploaded is not None
-    driver.find_element(By.ID, 'action-menu-toggle-1').click()
-    sleep(1)
-    driver.find_element(
-        By.XPATH, '//a[@data-title="logout,moodle"]').click()
-    sleep(3)
+    utils.logout(driver)
 
 def test_download_private_file(driver):
-    driver.find_element(
-        By.ID, 'username').send_keys(constant.USERNAME)
-    driver.find_element(
-        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
-    assert "Elearning" in driver.title
-    banner = driver.find_element(
-        By.XPATH, '//div/img')
-    assert banner is not None
+    utils.login(driver)
     sleep(2)
     driver.find_element(
         By.XPATH, '//a[@href="https://elearning.ibik.ac.id/user/files.php"]').click()
@@ -90,25 +73,14 @@ def test_download_private_file(driver):
     if os.path.isfile(constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE):
         assert os.path.isfile(constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE) is not None
         sleep(2)
-        driver.find_element(By.ID, 'action-menu-toggle-1').click()
-        sleep(1)
-        driver.find_element(
-            By.XPATH, '//a[@data-title="logout,moodle"]').click()
-        sleep(3)
+        utils.logout(driver)
     else:
         Assert.assertFalse("%s isn't a file!" % constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE)
 
 
 def test_folder_private_test(driver):
     # create a folder and move file uploaded  to the folder was created
-    driver.find_element(
-        By.ID, 'username').send_keys(constant.USERNAME)
-    driver.find_element(
-        By.ID, 'password').send_keys(constant.PASSWORD + Keys.ENTER)
-    assert "Elearning" in driver.title
-    banner = driver.find_element(
-        By.XPATH, '//div/img')
-    assert banner is not None
+    utils.login(driver)
     sleep(2)
     driver.find_element(
         By.XPATH, '//a[@href="https://elearning.ibik.ac.id/user/files.php"]').click()
@@ -129,9 +101,5 @@ def test_folder_private_test(driver):
     driver.find_element(By.XPATH, '//span//input[@value="Save changes"]').click()
     sleep(1)
     assert file_uploaded is not None
-    driver.find_element(By.ID, 'action-menu-toggle-1').click()
-    sleep(1)
-    driver.find_element(
-        By.XPATH, '//a[@data-title="logout,moodle"]').click()
-    sleep(3)
+    utils.logout(driver)
 
