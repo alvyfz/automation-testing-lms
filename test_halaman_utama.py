@@ -51,7 +51,7 @@ def test_pengumuman(driver):
         Assert.assertFalse("Download failed")
 
 
-def test_chat(driver):
+def test_chat_send_and_received(driver):
     characters = string.ascii_letters + string.digits + string.punctuation
     randomString = ''.join(random.choice(characters) for i in range(8))
     utils.login(driver)

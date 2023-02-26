@@ -8,13 +8,14 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from datetime import datetime
 
 import constant
 import utils
 
-characters = string.ascii_letters + string.digits + string.punctuation
-randomString = ''.join(random.choice(characters) for i in range(8))
-file_name = 'test_' + randomString
+# characters = string.ascii_letters + string.digits + string.punctuation
+# randomString = ''.join(random.choice(characters) for i in range(8))
+file_name = 'test_' + datetime.now().strftime("%d%m%Y%H%M%S")
 
 
 @pytest.fixture()
@@ -49,7 +50,9 @@ def test_upload_file(driver):
         By.XPATH, '//input[@id="id_submitbutton"]').click()
     sleep(6)
     file_uploaded = driver.find_element(
-        By.XPATH, '//span[contains(text(),"' + file_name + constant.FILE_TYPE + '")]')
+        By.XPATH, '//a//span[contains(text(),"' + file_name + constant.FILE_TYPE + '")]') 
+    # file_uploaded = driver.find_element(
+    #     By.XPATH, '//span[contains(@class, "fp-filename") and text() = "' + file_name + constant.FILE_TYPE + '"]')
     assert file_uploaded is not None
     utils.logout(driver)
 
@@ -73,6 +76,7 @@ def test_download_private_file(driver):
     if os.path.isfile(constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE):
         assert os.path.isfile(constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE) is not None
         sleep(2)
+        driver.find_element(By.XPATH, '//button[@title="Close"]').click()
         utils.logout(driver)
     else:
         Assert.assertFalse("%s isn't a file!" % constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE)
