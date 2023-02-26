@@ -15,6 +15,7 @@ import utils
 def driver():
     driver = webdriver.Chrome()
     driver.get('https://elearning.ibik.ac.id/login/index.php')
+    driver.implicitly_wait(10)
     yield driver
     driver.quit()
 

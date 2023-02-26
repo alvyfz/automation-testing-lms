@@ -22,6 +22,7 @@ file_name = 'test_' + datetime.now().strftime("%d%m%Y%H%M%S")
 def driver():
     driver = webdriver.Chrome()
     driver.get('https://elearning.ibik.ac.id/login/index.php')
+    driver.implicitly_wait(10)
     yield driver
     driver.quit()
 
