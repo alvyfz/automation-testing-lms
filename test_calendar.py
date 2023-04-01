@@ -44,9 +44,8 @@ def test_export_calendar(driver):
         utils.logout(driver)
     else:
         Assert.assertFalse("%s isn't a file!" % constant.FILE_PATH_DOWNLOADS + "icalexport.ics")
+        utils.logout(driver)
 
-    sleep(3)
-    utils.logout(driver)
 
 
 def test_import_calendar(driver):

@@ -5,7 +5,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-import constant
 import utils
 
 @pytest.fixture()
@@ -65,8 +64,9 @@ def test_course_attendance_same_course_same_day(driver):
     course_card = driver.find_element( By.XPATH, '//span[contains(text(),"Course untuk skripsi Alvy")]')
     assert course_card is not None
     course_card.click()
-    attendance = driver.find_element( By.XPATH, '//span[contains(text(),"Attendance")]')
-    assert attendance is None
+    driver.find_element( By.XPATH, '//span[contains(text(),"Attendance")]').click()
+    attendance = driver.find_element( By.XPATH, '//td[contains(text(),"Self-recorded")]')
+    assert attendance is not None
     sleep(1)
     utils.logout(driver)
 

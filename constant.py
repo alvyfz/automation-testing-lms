@@ -11,3 +11,5 @@ FILE_TYPE = '.xls'
 FILE_PATH = '/Users/muhammadalvyekafauzi/Desktop/Automation testing/automation-testing-lms/file_test.xls'
 FILE_PATH_DOWNLOADS = '/Users/muhammadalvyekafauzi/Downloads/'
 ICS_PATH = '/Users/muhammadalvyekafauzi/Desktop/Automation testing/automation-testing-lms/icalexport.ics'
+
+# py.test --excelreport=report%Y-%M-dT%H%.xls 

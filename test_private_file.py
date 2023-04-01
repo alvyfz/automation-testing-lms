@@ -37,6 +37,8 @@ def test_upload_file(driver):
     sleep(3)
     driver.find_element(
         By.XPATH, '//a[@title="Add..."]').click()
+    driver.find_element(
+        By.XPATH, '(//div[@role="tab"])[2]').click()
     sleep(1)
     button_upload = driver.find_element(
         By.XPATH, '//input[@type="file"]')
@@ -81,6 +83,7 @@ def test_download_private_file(driver):
         utils.logout(driver)
     else:
         Assert.assertFalse("%s isn't a file!" % constant.FILE_PATH_DOWNLOADS + file_name + constant.FILE_TYPE)
+        utils.logout(driver)
 
 
 def test_folder_private_test(driver):
