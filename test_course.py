@@ -10,6 +10,7 @@ import utils
 @pytest.fixture()
 def driver():
     driver = webdriver.Chrome()
+    driver.maximize_window()    
     driver.get('https://elearning.ibik.ac.id/login/index.php')
     driver.implicitly_wait(10)
     yield driver
@@ -117,7 +118,7 @@ def test_course_access_link(driver):
     driver.find_element( By.XPATH, '//span[contains(text(),"Link")]').click()
     sleep(1)
     driver.find_element( By.XPATH, '//a[contains(text(),"https://www.youtube.com/watch?v=JU6sl_yyZqs")]').click()
-    sleep(1)
+    sleep(4)
     url = driver.current_url
     assert url == 'https://www.youtube.com/watch?v=JU6sl_yyZqs'
     driver.get('https://elearning.ibik.ac.id')

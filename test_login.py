@@ -14,8 +14,9 @@ import utils
 @pytest.fixture()
 def driver():
     driver = webdriver.Chrome()
-    driver.get('https://elearning.ibik.ac.id/login/index.php')
     driver.implicitly_wait(10)
+    driver.get('https://elearning.ibik.ac.id/login/index.php')
+    driver.maximize_window()
     yield driver
     driver.quit()
 

@@ -14,6 +14,7 @@ import utils
 @pytest.fixture()
 def driver():
     driver = webdriver.Chrome()
+    driver.maximize_window()    
     driver.get('https://elearning.ibik.ac.id/login/index.php')
     driver.implicitly_wait(10)
     yield driver
@@ -31,7 +32,6 @@ def test_course_card(driver):
     assert course_card is not None
     course_button = driver.find_element(
         By.XPATH, '(//h4//a)[1]')
-    course_button.click()
     course_button.click()
     sleep(5)
     enroll_page = driver.find_element(By.CSS_SELECTOR, "h2")
